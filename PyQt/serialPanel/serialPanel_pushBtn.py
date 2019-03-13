@@ -13,7 +13,7 @@ from time import sleep
 def btn_pushed():
   GPIO.setmode(GPIO.BCM)
   GPIO.setup(23, GPIO.OUT)
-  GPIO.output(23, GPIO,HIGH)
+  GPIO.output(23, GPIO.HIGH)
   sleep(1)
   GPIO.cleanup()
 '''user code'''
@@ -40,7 +40,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "PushButton"))
         '''user code'''
-        self.pushButton.clicked.connection(btn_pushed)
+        self.pushButton.clicked.connect(btn_pushed)
         '''user code'''
         
 import sys
