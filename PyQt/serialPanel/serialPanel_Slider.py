@@ -10,10 +10,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 '''usr code'''
 import RPi.GPIO as GPIO
 from gpiozero import LED
-from time import sleep
 
 GPIO.setmode(GPIO.BCM)
-
 led=LED(23) # for the led toggling project
 
 led_pin=24 # for the led dimmer project
