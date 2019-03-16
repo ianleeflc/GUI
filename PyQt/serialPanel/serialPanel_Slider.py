@@ -79,7 +79,9 @@ class Ui_MainWindow(object):
         value=self.verticalSlider.value()
         print(value)
         pwm.ChangeDutyCycle(value)
+        '''usr code'''
 
+'''usr code'''
 import sys
 app=QtWidgets.QApplication(sys.argv)
 MainWindow=QtWidgets.QMainWindow()
