@@ -1,25 +1,12 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'serialPanel_Slider.ui'
+# Form implementation generated from reading ui file 'serialPanel_serial.ui'
 #
 # Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-'''usr code'''
-import RPi.GPIO as GPIO
-from gpiozero import LED
-
-GPIO.setmode(GPIO.BCM)
-led=LED(23)
-
-def ledToggle():
-    if led.is_lit():
-        led.off()
-    else: 
-        led.on()
-'''usr code'''
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -28,29 +15,24 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(70, 50, 171, 151))
+        self.pushButton.setGeometry(QtCore.QRect(20, 50, 171, 151))
         font = QtGui.QFont()
         font.setPointSize(18)
         self.pushButton.setFont(font)
         self.pushButton.setObjectName("pushButton")
-
         self.verticalSlider = QtWidgets.QSlider(self.centralwidget)
-
-        '''usr code'''
-        self.verticalSlider.setMinimum(100)
-        self.verticalSlider.setMaximum(0)
-        self.verticalSlider.setValue(100)
-        '''usr code'''
-
-        self.verticalSlider.setGeometry(QtCore.QRect(410, 50, 22, 160))
+        self.verticalSlider.setGeometry(QtCore.QRect(240, 50, 22, 160))
         self.verticalSlider.setOrientation(QtCore.Qt.Vertical)
         self.verticalSlider.setObjectName("verticalSlider")
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(380, 220, 91, 22))
+        self.lineEdit.setGeometry(QtCore.QRect(190, 220, 121, 22))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.lineEdit.setFont(font)
         self.lineEdit.setObjectName("lineEdit")
+        self.graphicsView = QtWidgets.QGraphicsView(self.centralwidget)
+        self.graphicsView.setGeometry(QtCore.QRect(330, 30, 256, 192))
+        self.graphicsView.setObjectName("graphicsView")
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -64,15 +46,4 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "Toggle LED"))
         self.lineEdit.setText(_translate("MainWindow", "LED Brightness"))
-        '''usr code'''
-        self.pushButton.clicked.connect(ledToggle)
-        #self.verticalSlider.valueChanged.connect(sliderMov)
 
-import sys
-app=QtWidgets.QApplication(sys.argv)
-MainWindow=QtWidgets.QMainWindow()
-ui=Ui_MainWindow()
-ui.setupUi(MainWindow)
-MainWindow.show()
-sys.exit(app.exec_())
-'''usr code'''
