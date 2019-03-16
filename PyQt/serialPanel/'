@@ -10,15 +10,9 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 '''usr code'''
 import RPi.GPIO as GPIO
 from gpiozero import LED
-from time import sleep
 
 GPIO.setmode(GPIO.BCM)
-#led=LED(23) # for the led toggling project
-
-led_pin=24 # for the led dimmer project
-GPIO.setup(led_pin, GPIO.OUT)
-pwm=GPIO.PWM(led_pin,100)
-pwm.start(100)
+led=LED(23)
 
 def ledToggle():
     if led.is_lit():
@@ -43,8 +37,8 @@ class Ui_MainWindow(object):
         self.verticalSlider = QtWidgets.QSlider(self.centralwidget)
 
         '''usr code'''
-        self.verticalSlider.setMinimum(0)
-        self.verticalSlider.setMaximum(100)
+        self.verticalSlider.setMinimum(100)
+        self.verticalSlider.setMaximum(0)
         self.verticalSlider.setValue(100)
         '''usr code'''
 
@@ -72,12 +66,7 @@ class Ui_MainWindow(object):
         self.lineEdit.setText(_translate("MainWindow", "LED Brightness"))
         '''usr code'''
         self.pushButton.clicked.connect(ledToggle)
-        self.verticalSlider.valueChanged.connect(self.sliderMov)
-
-    def sliderMov(self):
-        value=self.verticalSlider.value()
-        print(value)
-        pwm.ChangeDutyCycle(value)
+        #self.verticalSlider.valueChanged.connect(sliderMov)
 
 import sys
 app=QtWidgets.QApplication(sys.argv)
