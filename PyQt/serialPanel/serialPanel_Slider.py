@@ -13,7 +13,8 @@ from gpiozero import LED
 from time import sleep
 
 GPIO.setmode(GPIO.BCM)
-#led=LED(23) # for the led toggling project
+
+led=LED(23) # for the led toggling project
 
 led_pin=24 # for the led dimmer project
 GPIO.setup(led_pin, GPIO.OUT)
@@ -21,7 +22,7 @@ pwm=GPIO.PWM(led_pin,100)
 pwm.start(100)
 
 def ledToggle():
-    if led.is_lit():
+    if led.is_lit:
         led.off()
     else: 
         led.on()
@@ -52,7 +53,7 @@ class Ui_MainWindow(object):
         self.verticalSlider.setOrientation(QtCore.Qt.Vertical)
         self.verticalSlider.setObjectName("verticalSlider")
         self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
-        self.lineEdit.setGeometry(QtCore.QRect(380, 220, 91, 22))
+        self.lineEdit.setGeometry(QtCore.QRect(380, 220, 101, 22))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.lineEdit.setFont(font)
