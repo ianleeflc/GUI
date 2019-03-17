@@ -30,7 +30,7 @@ class Ui_MainWindow(object):
         font.setPointSize(10)
         self.lineEdit.setFont(font)
         self.lineEdit.setObjectName("lineEdit")
-        self.graphicsView = QtWidgets.QGraphicsView(self.centralwidget)
+        self.graphicsView = PlotWidget(self.centralwidget)
         self.graphicsView.setGeometry(QtCore.QRect(330, 30, 256, 192))
         self.graphicsView.setObjectName("graphicsView")
         MainWindow.setCentralWidget(self.centralwidget)
@@ -47,3 +47,4 @@ class Ui_MainWindow(object):
         self.pushButton.setText(_translate("MainWindow", "Toggle LED"))
         self.lineEdit.setText(_translate("MainWindow", "LED Brightness"))
 
+from pyqtgraph import PlotWidget
