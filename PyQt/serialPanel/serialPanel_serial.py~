@@ -7,7 +7,6 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from pyqtgraph import PlotWidget
 
 class Ui_MainWindow(object): # Ui_MainWindow is the Entire UI Class, including the MainWindow and all the widgets inside. 
     def setupUi(self, MainWindow):
@@ -50,4 +49,4 @@ class Ui_MainWindow(object): # Ui_MainWindow is the Entire UI Class, including t
         self.pushButton.setText(_translate("MainWindow", "Toggle LED"))
         self.lineEdit.setText(_translate("MainWindow", "LED Brightness"))
 
-#from pyqtgraph import PlotWidget
+from pyqtgraph import PlotWidget

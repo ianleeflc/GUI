@@ -180,7 +180,7 @@ class ExampleApp(QtGui.QMainWindow, serialPanel_serial.Ui_MainWindow):
         X=np.arange(points)
         Y=np.sin(np.arange(points)/points*4*np.pi+time.time())
         penn=pyqtgraph.mkPen('k', width=3, style=QtCore.Qt.SolidLine) 
-        #pyqtgraph.ViewBox.setYRange(1,5, padding=0.1, update=True)
+        pyqtgraph.ViewBox.setYRange(1,5, padding=0.1, update=True)
         self.graphicsView.plot(X,Y,pen=penn, clear=True)
 #        time.sleep(1)
         QtCore.QTimer.singleShot(1, self.update) # 1 ms, QUICKLY repeat, recursively
