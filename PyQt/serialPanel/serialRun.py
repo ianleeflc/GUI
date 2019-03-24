@@ -77,17 +77,95 @@
 ### Start the Qt event loop
 #app.exec_()
 
+##### Task 3, live plot the serial data the with pyqtgraph
+##from PyQt5 import QtCore, QtGui, QtWidgets
+##from pyqtgraph import PlotWidget
+##import serial
+##from PyQt5 import QtGui,QtCore
+##import sys
+##import numpy as np
+##import pyqtgraph
+##
+##ser = serial.Serial('COM34', 9600)
+##
+##class ExampleApp(QtGui.QMainWindow):
+##    def __init__(self):
+##        super().__init__()
+##        pyqtgraph.setConfigOption('background', 'w') # 
+##        self.setupUi(self) 
+##
+##    def setupUi(self, MainWindow):
+##        MainWindow.setObjectName("MainWindow")
+##        MainWindow.resize(900, 900)
+##        self.centralwidget = QtWidgets.QWidget(MainWindow)
+##        self.centralwidget.setObjectName("centralwidget")
+##        # the plot widget
+##        self.graphicsView = PlotWidget(self.centralwidget) # assign this PlotWidget to the graphicsView. 
+##        self.graphicsView.setGeometry(QtCore.QRect(200, 200, 500, 500))
+##        self.graphicsView.setObjectName("graphicsView")
+##        #
+##        MainWindow.setCentralWidget(self.centralwidget)
+##
+##    def update(self):
+##        points=100 #number of data points
+##        X=np.arange(points)
+##        n=0
+##        dataLst=[]
+##        while n<100:
+##            dataPoint=ser.readline()
+##            dataPoint=int(dataPoint)
+##            dataLst.append(dataPoint)
+##            n+=1
+##        Y=dataLst
+##        penn=pyqtgraph.mkPen('k', width=3, style=QtCore.Qt.SolidLine) 
+##        self.graphicsView.setYRange(0,1200, padding=0)
+##        labelStyle={'color':'#000','font-size':'20px'}
+##        self.graphicsView.setLabel('bottom','Number of Points','',**labelStyle)
+##        self.graphicsView.setLabel('left','Voltage','',**labelStyle)
+##        self.graphicsView.plot(X,Y,pen=penn, clear=True)
+##        QtCore.QTimer.singleShot(1, self.update) # 1 ms, QUICKLY repeat, recursively. Use this timer to invoke the 'update()' function recursively. 
+##
+##app = QtGui.QApplication(sys.argv)
+##form = ExampleApp()
+##form.show()
+##form.update() #start with something
+##app.exec_()
 
-### Task 3, live plot the serial data the with pyqtgraph
+
+#### Task 4, ADC (SPI Communication) to RPI Communication, works
+##import spidev
+##from numpy import interp
+##from time import sleep
+##
+##spi=spidev.SpiDev()
+##spi.open(0,0)
+##
+##def analogInput(channel):
+##    spi.max_speed_hz=1350000
+##    adc=spi.xfer2([1,(8+channel)<<4,0])
+##    data=((adc[1]&3)<<8)+adc[2]
+##    return data
+##
+##while True:
+##    output=analogInput(0) # Reading from CH0
+##    #output=interp(output, [0,1023], [0,100])
+##    print(output)
+##    sleep(0.1)
+
+## Task 5, live plot SPI data in the GUI
+import spidev
+from numpy import interp
+from time import sleep
 from PyQt5 import QtCore, QtGui, QtWidgets
 from pyqtgraph import PlotWidget
-import serial
+##import serial
 from PyQt5 import QtGui,QtCore
 import sys
 import numpy as np
 import pyqtgraph
 
-ser = serial.Serial('COM34', 9600)
+spi=spidev.SpiDev()
+spi.open(0,0)
 
 class ExampleApp(QtGui.QMainWindow):
     def __init__(self):
@@ -97,24 +175,30 @@ class ExampleApp(QtGui.QMainWindow):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(900, 900)
+        MainWindow.resize(350, 300)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         # the plot widget
         self.graphicsView = PlotWidget(self.centralwidget) # assign this PlotWidget to the graphicsView. 
-        self.graphicsView.setGeometry(QtCore.QRect(200, 200, 500, 500))
+        self.graphicsView.setGeometry(QtCore.QRect(20, 20, 300, 300))
         self.graphicsView.setObjectName("graphicsView")
         #
         MainWindow.setCentralWidget(self.centralwidget)
-
+        
+    def analogInput(self, channel):
+        spi.max_speed_hz=1350000
+        adc=spi.xfer2([1,(8+channel)<<4,0])
+        data=((adc[1]&3)<<8)+adc[2]
+        return data
+    
     def update(self):
         points=100 #number of data points
         X=np.arange(points)
         n=0
         dataLst=[]
         while n<100:
-            dataPoint=ser.readline()
-            dataPoint=int(dataPoint)
+            dataPoint=self.analogInput(0) # Reading from CH0
+            #dataPoint=int(dataPoint)
             dataLst.append(dataPoint)
             n+=1
         Y=dataLst
@@ -132,68 +216,7 @@ form.show()
 form.update() #start with something
 app.exec_()
 
-
-
-
-
-
-
-
-### Task 4, plot the serial data in this GUI 
-#import pyqtgraph as pg
-#from pyqtgraph.Qt import QtCore, QtGui
-#from pyqtgraph import PlotWidget
-#import numpy as np
-#
-##ser = serial.Serial('COM34', 9600)
-#
-##class ExampleApp(QtGui.QMainWindow):
-##    def __init__(self):
-##        pg.setConfigOption('background', 'w') # before loading any widget
-##        super().__init__()
-#        #self.setupUi(self)
-#
-##    def update(self):
-##        points=100 #number of data points
-##        X=np.arange(points)
-##        n=0
-##        dataLst=[]
-##        while n<100:
-##            dataPoint=ser.readline()
-##            dataPoint=int(dataPoint)
-##            dataLst.append(dataPoint)
-##            n+=1
-##        Y=dataLst
-##        penn=pyqtgraph.mkPen('k', width=3, style=QtCore.Qt.SolidLine) 
-##        #self.graphicsView.plot(X,Y,pen=penn, clear=True)
-##        pg.PlotWidget.plot(X,Y,pen=penn, clear=True)
-###        time.sleep(1)
-##        QtCore.QTimer.singleShot(1, self.update) # 1 ms, QUICKLY repeat, recursively
-##
-##app = QtGui.QApplication(sys.argv)
-##form = ExampleApp()
-##penn=pg.mkPen('k', width=3, style=QtCore.Qt.SolidLine) 
-##self.graphicsView.plot(X,Y,pen=penn, clear=True)
-#X=[1,2,3]
-#Y=[1,2,3]
-##pg.plot(X,Y,pen=penn, clear=True)
-##pg.setConfigOption('background','w')
-#plt = pg.PlotWidget() # pg.PlotWidget allows the use of the properties below, but pg.plot doesn't
-#penn=pg.mkPen('k', width=2, style=QtCore.Qt.SolidLine) 
-#plt.plot([1,2,3],[1,2,3], pen=penn, title='The firts pyqtgraph plot', symbol='t', symbolSize=20)
-#
-##form.show()
-##form.update() #start with something
-#QtGui.QApplication.exec_()
-#
-##
-
-
-
-
-
-
-## Task 5, inherit the GUI class made by Qt Designer and add things to it
+## Task 5_x, inherit the GUI class made by Qt Designer and add things to it
 #from PyQt5 import QtGui, QtCore
 #import serialPanel_serial
 #import sys
@@ -241,7 +264,7 @@ app.exec_()
 #app.exec_()
 
 
-## Task 7, plot the received data in the GUI. Works
+## Task 6_x, plot the received data in the GUI. Works
 #import serial
 #ser = serial.Serial('COM34', 9600)
 #
